@@ -24,35 +24,74 @@
 
                 data.slice(0, 30).forEach((country, index) => {
                     const col = document.createElement('div');
-                    col.innerHTML = `
-                        <div class="shadow card h-100">
-                            <div class="card-body" style="background-color: lightblue;">
-                                <img src="${country.flags.png}" class="card-img-top">
-                                <h5 class="card-title">${country.name}</h5>
-                                
-                                <button class="btn btn-sm btn-primary" onclick="toggleDetails('details-${index}')">Show Details</button>
-                                <div id="details-${index}" style="display: none; margin-top: 10px;">
-                                    <p class="card-text">Capital: ${country.capital}</p>
-                                    <p class="card-text">Region: ${country.region}</p>
-                                    <p class="card-text">Borders: ${country.borders}</p>
-                                    <p class="card-text">Population: ${country.population}</p>
-                                </div>
-                            </div>
-                    `;
+                    col.className = 'col';
 
-                    list.appendChild(col);
+                    const card = document.createElement('div');
+                    card.className = 'card h-100 border border-black shadow-sm';
+                    card.style.width = '100%';
+
+                    const flagImg = document.createElement('img');
+                    flagImg.src = country.flags.png;
+                    flagImg.className = 'card-img-top';
+                    flagImg.alt = country.name;
+
+                    const cardBody = document.createElement('div');
+                    cardBody.className = 'card-body d-flex flex-column';
+
+                    const title = document.createElement('h5');
+                    title.className = 'card-title';
+                    title.innerHTML = country.name;
+
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.className = 'btn btn-primary mb-2 mt-auto';
+                    toggleBtn.innerHTML = 'Show Details';
+                    toggleBtn.onclick = function() {
+                        const details = document.getElementById(`details-${index}`);
+                        if (details.style.display === 'none') {
+                            details.style.display = 'block';
+
+                        } else {
+                            details.style.display = 'none';
+
+                        }
+                    };
+
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.id = `details-${index}`;
+                    detailsDiv.style.display = 'none';
+
+                    const capital = document.createElement('p');
+                    capital.className = 'card-text';
+                    capital.innerHTML = `Capital: ${country.capital}`;
+
+                    const region = document.createElement('p');
+                    region.className = 'card-text';
+                    region.innerHTML = `Region: ${country.region}`;
+
+                    const population = document.createElement('p');
+                    population.className = 'card-text';
+                    population.innerHTML = `Population: ${country.population}`;
+
+
+                    detailsDiv.appendChild(capital);
+                    detailsDiv.appendChild(region);
+                    detailsDiv.appendChild(population);
+
+
+                    cardBody.appendChild(title);
+                    cardBody.appendChild(toggleBtn);
+                    cardBody.appendChild(detailsDiv);
+
+
+                    card.appendChild(flagImg);
+                    card.appendChild(cardBody);
+                    col.appendChild(card);
+
+                    document.getElementById('CountryList').appendChild(col);
                 });
-            });
+            })
 
-        function toggleDetails(id) {
-            const details = document.getElementById(id);
-            if (details.style.display === "none") {
-                details.style.display = "block";
-            } else {
-                details.style.display = "none";
-            }
-
-        }
+        .catch(err => console.error('Error fetching countries:', err));
     </script>
 </body>
 
