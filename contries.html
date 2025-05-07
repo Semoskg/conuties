@@ -19,7 +19,6 @@
         fetch('https://restcountries.com/v2/all')
             .then(res => res.json())
             .then(data => {
-                const list = document.getElementById('CountryList');
 
 
                 data.slice(0, 30).forEach((country, index) => {
